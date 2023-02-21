@@ -2,16 +2,19 @@
 
 ThisBuild / scalaVersion     := "2.13.8"
 ThisBuild / version          := "0.1.0"
-ThisBuild / organization     := "%ORGANIZATION%"
+ThisBuild / organization     := "edu.duke.cs.apex"
 
-val chiselVersion = "3.5.4"
+val chiselVersion = "3.5.6"
+
+lazy val berkeley_hf = RootProject(uri("https://github.com/Entropy-xcy/berkeley-hardfloat.git"))
+//lazy val fpnew = RootProject(uri("git@github.com:Composer-Team/fpnew-wrapper.git"))
 
 lazy val root = (project in file("."))
   .settings(
-    name := "%NAME%",
+    name := "duke-strongfloat",
     libraryDependencies ++= Seq(
       "edu.berkeley.cs" %% "chisel3" % chiselVersion,
-      "edu.berkeley.cs" %% "chiseltest" % "0.5.4" % "test"
+      "edu.berkeley.cs" %% "chiseltest" % "0.5.4" % "test",
     ),
     scalacOptions ++= Seq(
       "-language:reflectiveCalls",
@@ -21,5 +24,4 @@ lazy val root = (project in file("."))
       "-P:chiselplugin:genBundleElements",
     ),
     addCompilerPlugin("edu.berkeley.cs" % "chisel3-plugin" % chiselVersion cross CrossVersion.full),
-  )
-
+  ) dependsOn(berkeley_hf)
