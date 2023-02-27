@@ -1,4 +1,6 @@
-import Float.fromIntToExpWidth
+package strongfloat
+
+import strongfloat.Float.fromIntToExpWidth
 
 sealed class ExponentWidth(val width: Int) {
 

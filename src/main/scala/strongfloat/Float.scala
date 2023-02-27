@@ -1,11 +1,9 @@
-import Chisel.Cat
+package strongfloat
+
 import chisel3._
 import chisel3.internal.firrtl.Width
-import chisel3.internal.sourceinfo.SourceInfo
-import hardfloat._
 
-sealed abstract class Float(val expWidth: Int, val sigWidth: Int) extends Bundle with Num[Float] with FloatNum[Float]
-
+abstract class Float extends Bundle with Num[Float] with FloatNum[Float]
 
 object Float {
     implicit class fromIntToExpWidth(int: Int) {
@@ -18,7 +16,7 @@ object Float {
         }
     }
 
-    def apply(expWidth: ExponentWidth, sigWidth: Width): Float = {
-        BHF_Float(expWidth, sigWidth)
+    def apply(expWidth: ExponentWidth, sigWidth: Width): BHF_Float = {
+        new BHF_Float(expWidth, sigWidth)
     }
 }

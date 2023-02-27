@@ -1,9 +1,11 @@
-import Float.{fromIntToExpWidth, fromIntToFloat}
+package strongfloat
+
 import chisel3._
 import chiseltest._
 import chiseltest.simulator.WriteVcdAnnotation
-import org.scalatest.flatspec.AnyFlatSpec
 import hardfloat._
+import org.scalatest.flatspec.AnyFlatSpec
+import strongfloat.Float.fromIntToExpWidth
 
 
 class TestFloatAdder[T <: Data](gen: => T with Num[T]) extends Module {
@@ -21,7 +23,7 @@ class TestFloatAdderRaw extends Module {
         val a = Input(UInt(32.W))
         val b = Input(UInt(32.W))
         val c = Output(UInt(32.W))
-        val c_mirrow = Output(BHF_Float(8.E, 24.W))
+        val c_mirrow = Output(Float(8.E, 24.W))
     })
 
     // Use Berkeley Hardfloat
@@ -41,7 +43,7 @@ class TestFloatAdderRaw extends Module {
 class TestFloat extends AnyFlatSpec with ChiselScalatestTester {
     behavior of "FPU Adder"
     it should "perform FP32 addition" in {
-        test(new TestFloatAdder(BHF_Float(8.E, 24.W))).withAnnotations(Seq(WriteVcdAnnotation)) { c =>
+        test(new TestFloatAdder(Float(8.E, 24.W))).withAnnotations(Seq(WriteVcdAnnotation)) { c =>
             c.io.a.sign.poke(0.U)
             c.io.b.sign.poke(0.U)
             c.io.a.exp.poke(129.U)
